@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css/unit.html</title>
+    <style>
+        * {
+            font-size: 10px; /* 전체 요소에 기본적으로 10px 지정 */
+            box-sizing: border-box;
+        }
+
+        body {
+            font-size: 14px; /**/
+        }
+
+        div {
+            font-size: 1.5em; /* em : 현재 적용되어 있는 폰트를 기준으로 가변적으로 적용하겠다는 단위 */
+            border: 1px solid red;
+            width: 50vw; /* 전체를 기준으로 50% 유지 */
+            height: 20vh;
+        }
+
+        div>div {
+            font-size: 1.5rem; /* rem : root값을 기준으로 em (*에 지정된 값으로 보여짐) */
+        }
+
+        div>div>div {
+            font-size: 1.5rem;
+            /*background-color: rgb(230, 172, 66, .5); /* .X 하면 투명도 조절 */
+            background-color: hsla(108, 181%, 250%, 0.8); 
+            /* 색상의 값을 지정해주고 s: 채도 l: 명도 a: 불투명도 가지고 조절 */
+        }
+
+        div#cnt {
+            border-radius: 10px 20px 30px 40px; /* 차례대로 상 하 좌 우 */
+            box-shadow: 10px 20px 20px 30px green;
+        }
+    </style>
+</head>
+<body>
+    body font
+    <p>basic font</p>
+    <div id="cnt" style="font-size: 21px;">cnt</div>
+    <div>content
+        <div>content2
+            <div>content3</div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css/category.html</title>
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+        .mainheader {
+            background-color: black;
+            height: 4vh;
+            float: left;
+        }
+
+        .home {
+            float: right;
+        }
+        
+        nav>section {
+            float: left;
+            width: 20%;
+            height: 3vh;
+            background-color: white;
+            border: 1px solid black;
+        }
+
+        section {
+            float: right;
+            border: 1px solid gray;
+            width: 70vw;
+            height: 50vh;
+        }
+        
+        section>header {
+            background-color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="mainheader" style="color: white;" >
+            Codeyang's Page
+        </div>
+        <div class="home">
+            <ul style="list-style-type: none;">
+                <li>홈</li>
+                <li>로그아웃</li>
+                <li>회원정보</li>
+            </ul>
+        </div>
+    </header>
+
+    <nav>
+        <span>category</span>
+        <div class="category">
+            <header style="background-color: skyblue;">게시판</header>
+            <section>일반 게시판</section>
+            <section>코딩 게시판</section>
+        </div>
+    </nav>
+
+    <section>
+        <div class="content">
+            <header>제목을 입력해주세요.</header>
+            <article>내용을 입력해주세요.</article>
+        </div>
+    </section>
+
+    <div>
+        
+    </div>
+</body>
+</html>
