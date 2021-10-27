@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css/transform.html</title>
+    <style>
+        .box {
+            width: 95px;
+            height: 95px;
+            line-height: 95px; /*위 아래의 가운데 부분에 텍스트 위치하도록*/
+            color: red;
+            text-align: center;
+            border-radius: 6px;
+        }
+
+        .original {
+            background-color: rgb(190, 190, 184);
+            margin: 30px;
+            border: 1px dashed gray;
+            float: left; /* 좌우정렬 */
+        }
+
+        .child {
+            background-color: greenyellow;
+            cursor: pointer; /* 해당되는 엘리먼트에 마우스 올라가면 커서 모양 바뀜 */
+        }
+
+        .translate {
+            transform: translateX(10px) translateY(10px); /* x축으로 10px, y축으로 10px 이동*/
+            /* translate(10px, 10px) 이렇게 써도 됨 */
+        }
+
+        .scale {
+            transform: scaleX(0.8) scaleY(1.1) translateY(10px); /* scalex : x축으로 0.8만큼 비율 줄임, 크게 하고 싶으면 1보다 큰 수를 넣으면 됨 */
+        }
+
+        .skew:hover { /* 마우스 올라가면 움직이도록 */
+            transform: skewX(10deg) skewY(10deg); /* x축 기준으로 10도, y축 기준으로 10도 변형 */
+        }
+
+        .rotate:hover { /* 마우스 올라가면 움직이도록 */
+            transform: rotate(10deg); /* 10도 움직임(xyz는 3d에서 씀) */
+        }
+    </style>
+</head>
+<body>
+    <div class="original box">
+        <div class="child box translate">translate</div>
+    </div>
+    <div class="original box">
+        <div class="child box scale">scale</div>
+    </div>
+    <div class="original box">
+        <div class="child box skew">skew</div>
+    </div>
+    <div class="original box">
+        <div class="child box rotate">rotate</div>
+    </div>
+</body>
+</html>

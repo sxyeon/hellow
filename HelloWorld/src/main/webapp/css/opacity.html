@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css/opacity.html</title>
+    <style>
+        div,
+        img {
+            float: left;
+            width: 150px;
+            height: 150px;
+            margin: 30px;
+            background-color: blue;
+            color: white; /* 폰트 색상 */
+            transition: opacity 2s; /* 2초동안 불투명도 속성이 서서히 적용됨 */
+        }
+        div:hover, 
+        img:hover {
+            /* opacity: 0.5; /* opacity : 불투명도 속성, 아무것도 지정하지 않으면 1, 숫자 작을수록 투명해짐 */
+            /* display: none; /* none : 공간 사라짐 */
+            visibility: hidden; /* 공간은 그대로 차지하는데 숨겨짐 */
+        }
+
+        .menu {
+            background-color: wheat;
+            color: red;
+            width: 200px;
+        }
+
+        div.menu>ul { /* div의 menu에 있는 ul태그에 속성 넣기 */
+            list-style-type: none;
+        }
+
+        div.menu>ul>li {
+            display: inline-block; /* 오른쪽 정렬 */
+            background-color: tomato;
+            color: yellow;
+        }
+    </style>
+</head>
+<body>
+
+    <div>opacity .5</div>
+    <img src="../css/1.PNG" alt="image">
+
+    <div class="menu">
+        <ul>
+            <li>Home</li>
+            <li>Main</li>
+            <li>Login</li>
+        </ul>
+</div>
+
+<ul>
+    <li>apple</li>
+    <li>mango</li>
+    <li>cherry</li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css/transition.html</title>
+    <style>
+        div {
+            font: bold 16px;
+            color: white;
+            text-align: center;
+            width: 100px;
+            height: 50px;
+            background-color: red;
+            margin-bottom: 10px;
+            transition: width 2s;
+        }
+
+        div:nth-child(1) { /*div에서 첫번째*/
+            transition-timing-function: ease; /* 극초반은 느리게, 초반은 빠르게, 종료지점은 느리게 */
+        } 
+
+        div:nth-child(2) {
+            transition-timing-function: linear; /* 처음부터 끝까지 동일한 속도로 움직임*/
+        }
+
+        div:nth-child(3) {
+            transition-timing-function: ease-in; /* 처음에는 천천히 시작했다가 그 다음은 동일한 속도로 */
+        }
+
+        div:nth-child(4) {
+            transition-timing-function: ease-out; /* 마칠 때 천천히 진행되도록 */
+        }
+
+        div:nth-child(5) {
+            transition-timing-function: ease-in-out; /* 시작지점과 종료지점의 변화가 천천히 진행 */
+        }
+        
+        div:hover {
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div>ease</div> 
+    <div>linear</div>
+    <div>ease-in</div> 
+    <div>ease-out</div>
+    <div>ease-in-out</div> 
+</body>
+</html>

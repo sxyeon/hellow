@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css/transition.html</title>
+    <style>
+        div {
+            /* transition: background-color 2s, border-radius 4s; /* 즉각적으로 적용하는 게 아니라 n초라는 시간 지연을 주면서 적용시킴 */
+            /* div:hover에 들어가면 빠져나올 때는 시간 지연 안 줌*/
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            /*transition-property: background-color, border-radidus;
+            transition-duration: 2s, 2s;
+            transition-timing-function: ease; /* 2초 동안 어떤 속성을 가지고 적용하겠다는 것 */
+            /*transition-delay: 1s; /* 1초를 기다렸다가 지연된 상태에서 변경하겠다는 것 */
+            transition: background-color 2s, border-radius 2s; /* 축약형 */
+        }
+        
+        div:hover {
+            background-color: blue;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div>ease</div> 
+    <div>linear</div>
+    <div>ease-in</div> 
+    <div>ease-out</div>
+    <div>ease-in-out</div> 
+</body>
+</html>
