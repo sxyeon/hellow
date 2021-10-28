@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript/document.html</title>
+</head>
+<body>
+    
+    <script>
+        var n1 = 20; // num(javascript는 double같은 게 없고 숫자는 모두 num)
+        n1 = "20"; // string
+        n1 = true;
+        n1 = null;
+        n1 = { // object type
+            name: 'Hong',
+            age: 20
+        }
+
+        var ary = [n1, 'apple', 20, true]; // javascript는 타입이 같지 않아도 배열에 함께 들어갈 수 있음
+        for(var val of ary) {
+            console.log(val);
+        }
+
+        window.document.write(n1.name);
+        document.write('<p>' + n1['age'] + '</p>');
+
+        console.log(n1); // 전역변수
+
+        function sum() {
+            var n1 = 10; // 로컬변수. function 내에서만 사용되는 변수
+            var n2 = 20;
+            console.log(n1 + n2);
+        }
+        sum();
+
+        {
+            let n2 = 'val'; // let은 중복선언 할 수 없음
+            var n1 = 'new';
+        }
+
+        {
+            let n2 = '20'; // 변수
+            n2 = 20;
+            n2 = true;
+
+            const n3 = 30; // 상수(한 번 선언되고 나면 다른 값으로 바꿀 수 없음)
+            // n3 = 40; // 에러발생
+
+            const obj = { // obj를 상수로 선언
+                name: 'Hong',
+                age : 20
+            }
+
+            // obj = { // obj가 상수로 선언되어서 값을 변경할 수 없으니까 에러 뜸
+            //     name : 'Hwang',
+            //     age: 33
+            // }
+             obj.name = 'Hwnag' // 필드값을 바꾸는 것은 가능
+             obj['age'] = 23;
+
+             console.log(obj)
+        }
+
+        function showInfo() {
+            console.log('Hello, World');
+        }
+        console.log(showInfo); // () 없이 showInfo만 -> function 정의문 그대로 출력해줌
+        console.log(showInfo()); // 값 보여줌 / () 붙어있으면 실행구문
+
+        let newFunc = showInfo;
+        console.log(newFunc); // 정의구문 출력
+        newFunc();
+
+        let showAnother = function() { // function 정의하는데 이름이 없음
+            console.log('Nice, World');
+        }
+        console.log(showAnother);
+        showAnother();
+
+        
+    </script>
+
+</body>
+</html>

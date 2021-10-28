@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript/event.html</title>
+    <script src="table.js"></script>
+</head>
+
+<body>
+
+    <button id="btn">클릭</button>
+    <p>클릭</p>
+
+
+
+    <script>
+        // id값으로 요소 찾아오기 vs 선택자로 요소 찾아오기
+        let btn = document.querySelector('button'); // button이란 요소 찾아옴 / 해당되는 요소 가져오는 작업
+        btn = document.getElementById('btn'); // id값으로 요소 선택 / 'btn'이 아니라 btn이라고 쓰면 btn이라는 변수로 알아들음
+        console.log(btn);
+        btn.onclick = function() { // document의 어느 영역이든 클릭하면 호출
+            // window.alert('클릭됨');
+            let pTag = document.querySelector('p');
+            pTag.innerHTML = 'click!!'; // 클릭 버튼 누르면 클릭이 click!!으로 바뀜
+        }
+        btn.onmouseover = function () {
+            // 이벤트 안에서 this는 버튼 자체를 가리킴
+            this.style.backgroundColor = 'yellow'; // 마우스 올리면 노란색으로 
+        }
+        btn.onmouseout = function() {
+            this.style.backgroundColor = null; // 마우스 떼면 아무 색상도 없음
+        }
+    </script>
+
+</body>
+
+</html>
