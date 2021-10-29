@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+    <style>
+        :root{  /* root가상 클래스 : 가장 상위 요소 선택할 때 사용 */
+            /* 웹 문서에서 공통으로 사용될 속성을 미리 변수에 선언함 / --속성이름:속성값 */
+            --body-background-color : #c0c1c2;
+            --font-color: black;
+            --border-gray-color: gray;
+            --naver-green-color: rgb(42, 221, 42);
+            --naver-green-border-color: green;
+        }
+
+        * {
+            margin: 0; /* margin : 바깥쪽 여백 */
+            padding: 0; /* padding : 안쪽 여백 */
+            /* margin, padding은 border를 경계로 나뉨 */
+        }
+
+        body {
+            background: var(--body-background-color);
+        }
+
+        .main-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column; /* 컨테이너 안에서 요소들이 정렬해야 할 방향 지정 / column : 요소들을 위에서 아래로 정렬 */ 
+            align-items: center; /* 콘텐츠 아이템의 내부 상하관계 정렬 상태를 설정 */
+            margin-top: 21px;
+        }
+
+        .main-container .main-wrap {
+            width: 768px;
+        }
+
+        .main-container .main-wrap .sel-lang-wrap .lang-select {
+            width: 96px;
+            height: 30px;
+            color: var(--font-color);
+            border: solid 1px var(--border-gray-color);
+        }
+
+        .main-container .main-wrap .logo-wrap {
+            padding-top: 55px;
+        }
+
+        .main-container .main-wrap .logo-wrap img {
+            width: 231px;
+            height: 44px;
+        }
+
+        .main-container .main-wrap header .logo-wrap {
+            display: flex; /* 요소를 어떻게 보여줄지 결정 / flex :  */
+            flex-direction: column; /* flex-direction : 주축 지정 / column : 주축은 페이지 상단에서 하단으로 블록 방향 따름*/
+            align-items: center; /* align-items : 교차축에서 아이템 정렬 */
+        }
+
+        .login-input-section-wrap {
+            padding-top: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .login-input-wrap {
+            width: 465px;
+            height: 48px;
+            border: solid 1px var(--border-gray-color);
+            background: white;
+        }
+
+        .password-wrap {
+            margin-top: 13px;
+
+        }
+
+
+        .login-input-wrap-password {
+            width: 465px;
+            height: 48px;
+            border: solid 1px var(--border-gray-color);
+            background-color: white;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        
+        .login-input-wrap input {
+            border: none;
+            width: 430px;
+            margin-top: 10px;
+            font-size: 14px;
+            margin-left: 10px;
+            height: 30px;
+        }
+
+        .login-button-wrap button {
+            width: 465px;
+            height: 48px;
+            font-size: 18px;
+            background: var(--naver-green-color);
+            color: white;
+            border: solid 1px var(--naver-green-border-color);
+        }
+
+        .login-stay-sign-in {
+            width: 465px;
+            height: 52px;
+            display: flex;
+            font-size: 15px;
+            color: rgb(44, 44, 44);
+            align-items: center;
+            justify-content: flex-start;
+            border-bottom: solid 1px var(--border-gray-color)
+        }
+
+        .login-stay-sign-in i {
+            font-size: 25px;
+            color: red;
+        }
+
+        .login-stay-sign-in span {
+            padding-left: 5px;
+            line-height: 25px;
+        }
+        
+        .Easy-sign-in-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 40px;
+        }
+
+        .Easy-sign-in-wrap h2 {
+            font-size: 20px;
+        }
+
+        .Easy-sign-in-wrap .sign-button-list {
+            padding-top: 25px;
+            list-style: none;
+            width: 465px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .Easy-sign-in-wrap .sign-button-list li {
+            padding-bottom: 10px;
+        }
+
+        .Easy-sign-in-wrap .sign-button-list li button {
+            width: 465px;
+            height: 56px;
+            border: solid 1px var(--border-gray-color);
+            background: white;
+        }
+
+        .Easy-sign-in-wrap .sign-button-list li button i {
+            padding-left: 15px;
+            font-size: 20px;
+        }
+
+        .fas fa-qrcode {
+            color: var(--naver-green-color);
+        }
+
+        .fa-line {
+            color: var(--naver-green-border-color);
+        }
+
+        .fa-facebook-square {
+            color: rgb(21, 21, 255);
+        }
+
+        .Easy-sign-in-wrap .sign-button-list li button span {
+            padding-left: 20px;
+            font-size: 18px;
+        }
+
+        .Easy-sign-in-wrap .forget-msg {
+            columns: var(--font-color);
+            font-size: 14px;
+            padding-top: 10px;
+        }
+
+        footer {
+            padding-top: 95px;
+            padding-bottom: 15px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 768px;
+        }
+
+        footer .copyright-wrap span img {
+            width: 59px;
+            height: 11px;
+        }
+
+        footer .copyright-wrap span {
+            font-size: 13px;
+            line-height: 15px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="main-wrap">
+            <header>
+                <div class="sel-lang-wrap">
+                    <select class="lang-select">
+                        <option>한국어</option>
+                        <option>English</option>
+                    </select>
+                </div>
+                <div class="logo-wrap">
+                    <img src="../naver.JPG">
+                </div>
+            </header>
+            <section class="login-input-section-wrap">
+                <div class="login-input-wrap">
+                    <input placeholder="Username" type="text"></input>
+                    <!-- placeholder : 기본값이 아니라, 무엇을 입력해야 하는지 안내하는 문구 넣을 때 -->
+                </div>
+                <div class="login-input-wrap-password">
+                    <input placeholder="Password" type="password"></input>
+                </div>
+                <div class="login-button-wrap">
+                    <button>Sign in</button>
+                </div>
+                <div class="login-stay-sign-in">
+                    <i class="far fa-check-circle"></i>
+                    <span>Stay Signed in</span>
+                </div>
+            </section>
+            <section class="Easy-sign-in-wrap">
+                <h2>Easier sign in</h2>
+                <ul class="sign-button-list">
+                    <li><button><i class="fas fa-qrcode"><span>Sign in with QR code</span></i></button></li>
+                    <li><button><i class="fab fab ba-facebook"><span>Facebook</span></i></button></li>
+                    <li><button><i class="fab fab-ba-line"><span>line</span></i></button></li>
+                </ul>
+                <p class="forget-msg">Forgot your Username or Password? | Sign up</p>
+            </section>
+            <footer>
+                <div class="copyright-wrap">
+                    <span><img src="../naver.JPG"> Copyright &copy; NAVER Corp. All Rights Reserved.</span>
+                </div>
+            </footer>
+        </div>
+    </div>
+</body>
+
+</html>
