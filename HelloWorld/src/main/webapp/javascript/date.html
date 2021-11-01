@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript/date.html</title>
+    <style>
+        table {
+            width: 1200px;
+        }
+
+        td {
+            width: 100px;
+            height: 80px;
+            padding: 1px;
+        }
+
+        td:hover {
+            background-color: yellow;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin-top: 2px;
+            margin-bottom: 1px;
+            list-style-type: square;
+        }
+
+        p,
+        li {
+            margin: 0%;
+            padding: 0%;
+            color: blue;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="number" name="year" id="year" value="2021">
+    <select name="month" id="month" onchange="showCalendar()">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+    </select>
+    <div id="showContent">
+        <script>
+            let today = new Date(); // 오늘 날짜 기준으로 달력 만들어주기
+            today.setDate(1);
+            let year = today.getFullYear();
+            let month = today.getMonth(); // 1~12 Month : 0~11
+            createCalendar(year, month); // 오늘 날짜 달력 보여주기
+
+
+            function createCalendar(year, month) {
+                // 기존 정보가 있으면 지우고 새로 보여주기
+                let content = document.querySelector('#showContent')
+                let cnt = content.children.length;
+                console.log(cnt);
+                for (let i = 0; i < content.childNodes.length; i++) {
+                    console.log(i, ',', content.children[0]);
+                    content.children[0]
+                .remove(); // h3, table // 하나를 지우고 나면 다시 다음 요소가 첫 번째가 되니까 첫 번째 요소를 지운다는 의미로 children[0]
+                }
+                // year=2021, month=10
+                let today = new Date();
+                today.setDate(1); // 해당되는 달의 첫번째 날짜 지정하고 싶어서 1
+                today.setFullYear(year);
+                today.setMonth(month);
+                console.log(today);
+                // 첫날: 무슨요일?, 마지막날?
+                let firstDay, lastDate;
+                firstDay = today.getDay(); // 요일정보
+                let lastDay = new Date(year, month + 1,
+                0); // 마지막날 계산 : 0 쓴 이유는 이전달이 몇 월인지를 모름.. 1일의 전날이라는 의미로 0을 넣는데 그럼 그전달의 마지막날을 가져오기 때문에 month에 1을 더해서 이번달의 마지막날을 가져옴
+                lastDate = lastDay.getDate();
+                console.log(firstDay, lastDate); // 요일정보, 말일정보
+
+                // 1일의 위치 / 마지막 날짜
+                let h3 = document.createElement('h3');
+                h3.innerHTML = year + '년' + (month + 1) + '월';
+                document.getElementById('showContent').appendChild(h3);
+                let result = createTable(firstDay, lastDate);
+                document.getElementById('showContent').appendChild(result);
+
+            }
+
+            function createTable(firstDay, lastDate) {
+                let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+                let table, thead, tbody, tr, td;
+                table = document.createElement('table');
+                table.setAttribute('border', '1');
+                thead = document.createElement('thead');
+                tbody = document.createElement('tbody');
+                table.appendChild(thead);
+                table.appendChild(tbody);
+                // thead
+                tr = document.createElement('tr');
+                thead.appendChild(tr)
+                for (let day of days) {
+                    td = document.createElement('th');
+                    td.innerHTML = day;
+                    tr.appendChild(td);
+                }
+
+                // tbody 1~lastday
+                tr = document.createElement('tr');
+                tbody.appendChild(tr);
+                for (let i = 0; i < firstDay; i++) {
+                    td = document.createElement('td');
+                    tr.appendChild(td);
+                    for (let i = 1; i <= lastDate; i++) {
+                        td = document.createElement('td');
+                        td.innerHTML = i;
+                        td.onclick = addSchedule;
+                        tr.appendChild(td);
+                        if ((i + firstDay) % 7 == 0) {
+                            tr = document.createElement('tr');
+                            tbody.appendChild(tr);
+                        }
+                        reminCnt = i + firstDay; // 변수 선언 안 했기 때문에 전역변수
+                    }
+                    // 빈칸 td로 채우기
+                    while (reminCnt++ % 7 != 0) {
+                        td = document.createElement('td');
+                        tr.appendChild(td);
+                        reminCnt++;
+                    }
+                    return table;
+                }
+            }
+
+            function addSchedule() {
+                let result = window.prompt('스케줄을 입력>>>');
+                if (!result) {
+                    return;
+                }
+                let li = document.createElement('li');
+                let text = document.createTextNode(result);
+                li.appendChild(text);
+                this.appendChild(li);
+            }
+
+
+            function showCalendar() {
+                let searchYear = document.getElementById('year').value;
+                let searchMonth = document.querySelector('select>option:checked').value;
+                searchYear = parseInt(searchYear);
+                searchMonth = parseInt(searchMonth) - 1;
+                console.log(searchYear, searchMonth);
+                createCalendar(searchYear, searchMonth);
+            }
+
+            // today = new Date('1971'); // 날짜 지정 안 되면 1월 1일로 / 시분초 지정 안 되면 09시 기준
+            // today.setFullYear(2021); // set은 설정 메소드
+            // today.setMonth(10);
+            // today.setDate(1);
+            // today.setHours(10);
+            // console.log(today.getDay()); // getDay는 해당되는 날짜의 요일을 가져옴 / 0 ~ 6 / get은 반환 메소드
+        </script>
+    </div>
+
+</body>
+
+</html>

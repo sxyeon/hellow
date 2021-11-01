@@ -34,16 +34,42 @@ console.clear();
 console.log(filterUsers); 
 
 // reduce는 최종값이 하나. 전체 요소들을 가지고 하나의 값으로 추려주는 메소드
-let resultAry = [];
-let sum = filterUsers.reduce(function (prevObj, curObj/*, ind, ary*/) { 
-    console.log(prevObj, curObj);
-    resultAry.push(curObj.score);
-    // return prevObj + curObj.score; // return된 값이 그 다음 순번의 의 초기값이 됨
-    // 3번 돌면서 score값을 합해서 누적시킴 / 누적되는 값은 그 전에 가지고 있던 초기값이랑 지금 score를 합쳐서 그 다음 순번의 초기값으로 만들어줌
-    return curObj.score;
-}, resultAry); 
-console.log(`합계 : ${sum}`);
-console.log('---------------------------')
+let sum = filterUsers.reduce(function(initVal, obj, ind, ary){
+    // if(ind != 0) {
+    //     console.log(initVal[ind - 1].uid, obj.uid);
+    // }
+    console.log(initVal, obj, ind/*, ary*/);
+    initVal.push(obj);
+    return initVal; // 배열에 오브젝트 담음
+}, []); // 참조값.. a=3, a={}
+// 배열을 초기값으로 / initVal는 배열
+console.log(sum);
 
-//
+let sum2 = function sum2(num1, num2) {
+    return num1 + num2;
+}
+
+sum2 = (num1, num2) => num1 + num2; // num1과 num2를 더한 값을 반환하겠다는 것을 표현한 간단 표현식
+
+
+let trueOrFalse = [45, 4, 9, 16, 25].some(function (val, ind, ary) { // 조건체크 : some은 해당되는 값이 하나라도 있으면 true 리턴 / every는 전체값이 모두 해당되어야 true 리턴
+    return val > 10;
+});
+console.log(trueOrFalse);
+
+const fruits = ['Apple', 'Orange', 'Apple', 'Mango'];
+console.log(fruits.indexOf('Apple')); // indexOf는 해당되는 값 찾아줌
+console.log(fruits.lastIndexOf('Apple')); // lastindexOf는 뒤에서부터 값 찾아줌 
+console.log(fruits.includes('Apple')); // includes는 배열이 특정 요소를 포함하고 있는지 판별
+console.log(fruits.find(function(val, ind, ary) {
+    return val == 'Apple';
+})); // find : apple이라는 요소를 찾아서 그 값이 있으면 그대로 return / callBack함수 들어가야됨
+
+console.log(Array.from('ABCD')) // 문자열 배열타입으로 바꿈
+console.log('A,B,C,D'.split(","));
+
+console.log(fruits.keys());
+for(let x of fruits.keys()) {
+    console.log(x);
+}
 
