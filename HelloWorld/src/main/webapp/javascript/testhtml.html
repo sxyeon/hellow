@@ -62,8 +62,20 @@
             width: 80%;
         }
 
+        .content_info .location {
+            padding: 0.5rem 0;
+            font-size: .7rem;
+        }
+
+        .content_info {
+            margin-bottom: 1.5rem;
+            position: relative;
+            text-align: left;
+        }
+
         section header span {
             float: right;
+            padding-right: 20px;
         }
 
         #page_info select {
@@ -76,7 +88,7 @@
             border-bottom: 1px solid gray;
         }
 
-        
+
         th {
             border-top: 1px solid gray;
             padding: 15px;
@@ -86,7 +98,7 @@
         tr {
             border-bottom: 1px solid gray;
         }
-        
+
         td {
             width: 250px;
             text-align: center;
@@ -143,15 +155,21 @@
             </ul>
         </div>
     </nav>
-    <section>
+    <section class="content_info">
         <div id="board_header">
             <header>
                 <h2>공지사항</h2>
-                <span id="homeicon"><img src="../home.png" width="20px" height="20px"> > 알림·자료 > 공지사항 </span>
-                <br>
-                <br>
-                <span id="shareicon"><img src="../shareicon.png" width="30px" height="30px"> &nbsp; &nbsp; <img
-                        src="../printicon.png" width="30px" height="30px"></span>
+                <div class="location_wrap">
+                    <nav class="location">
+                        <ul>
+                        <li id="homeicon"><img src="../home.png" width="20px" height="20px"></li>
+                        <li> > &nbsp; 알림·자료</li>
+                        <li>> 공지사항</li>
+                        <li id="shareicon"><img src="../shareicon.png" width="30px" height="30px"><img
+                                src="../printicon.png" width="30px" height="30px"></li>
+                        </ul>
+                    </nav>
+                </div>
                 <hr style="padding-top: 50px;">
             </header>
         </div>
