@@ -18,6 +18,8 @@
     <script>
         // id값으로 요소 찾아오기 vs 선택자로 요소 찾아오기
         let btn = document.querySelector('button'); // button이란 요소 찾아옴 / 해당되는 요소 가져오는 작업
+        // querySelector : 특정 name이나 id 제한하지 않고 css선택자를 사용하여 요소 찾음
+        // querySelectorAll : 해당 선택자에 해당하는 모든 요소 가져옴
         btn = document.getElementById('btn'); // id값으로 요소 선택 / 'btn'이 아니라 btn이라고 쓰면 btn이라는 변수로 알아들음
         console.log(btn);
         btn.onclick = function() { // document의 어느 영역이든 클릭하면 호출

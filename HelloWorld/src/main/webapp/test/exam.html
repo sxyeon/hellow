@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>exam01.html</title>
+    <style>
+        header {
+            position: fixed;
+        }
+
+        header nav {
+            width: 100%;
+            height: 50px;
+        }
+
+        header nav ul {
+            list-style: none;
+            margin-left: 30px;
+        }
+
+        header nav ul li {
+            margin-left: 50px;
+            float: left;
+        }
+
+        header>nav>ul>li>a {
+            font-size: 20px;
+            color: black;
+        }
+
+        nav {
+            width: 200px;
+        }
+
+        .menu li a {
+            height: 30px;
+            line-height: 30px;
+            display: block;
+            padding: 0 20px;
+            font-size: 15px;
+            color: black;
+            list-style: none;
+        }
+
+        .sectionname {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        nav {
+            width: 200px;
+            background-color: aquamarine;
+            border-bottom: 1px solid rgb(163, 163, 161);
+        }
+
+        nav>ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            width: 200px;
+            background-color: green;
+        }
+
+        li>a {
+            display: ;
+        }
+
+        nav>li {
+            font-size: 15px;
+            list-style: none;
+            text-align: left;
+            margin: 40pxs;
+            display: inline;
+        }
+
+        table {
+            border-collapse: separate;
+            border-spacing: 0 30px;
+        }
+
+        th {
+            border-top: 1px solid gray;
+            padding-top: 15px;
+        }
+
+        td {
+            width: 250px;
+            text-align: center;
+        }
+
+        td:nth-child(1) {
+            width: 100px;
+        }
+
+        td:nth-child(2) {
+            width: 500px;
+            text-align: left;
+        }
+
+        td:nth-child(5) {
+            width: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a>감염병</a></li>
+                <li><a>건강정보</a></li>
+                <li><a>정책정보</a></li>
+                <li><a>연구개발</a></li>
+                <li><a>알림·자료</a></li>
+                <li><a>간행물·통계</a></li>
+                <li><a>민원 정보공개</a></li>
+                <li><a>기관소개</a></li>
+                <li><a>사업별 누리집</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <nav class="navmenu">
+        
+        <ul class="menu">
+            
+            <li><a href="#">이달의건강소식</a></li>
+            <li><a href="#">보도자료</a></li>
+            <li><a href="#">포토뉴스</a></li>
+            <li><a href="#">홍보자료</a></li>
+            <li><a href="#">공지사항</a></li>
+            <li><a href="#">공고/공시</a></li>
+            <li><a href="#">채용공고</a></li>
+            <li><a href="#">법령·지침·서식</a></li>
+        </ul>
+    </nav>
+
+    <section>
+        <span class="sectionname">공지사항</span>
+        <hr style="border: solid 1px black;">
+        <p>전체 200건, 전체 페이지 <span style="color: red;">1</span>/212</p>
+        <form>
+            <select name="select">
+                <option value="1" selected>제목</option>
+                <option value="2">작성자</option>
+            </select>
+        </form>
+        <table class="sub_news">
+            <thead>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>작성일자</th>
+                <th>조회수</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>공지</td>
+                    <td>211021 국내 예반접종완료자 입국 시 격리면제 절차 안내</td>
+                    <td>질병관리청 검역정책과</td>
+                    <td>2021-10-22</td>
+                    <td>10019</td>
+                </tr>
+                <tr>
+                    <td>공지</td>
+                    <td>201021 예방접종완료자 격리며제 제외국가 안내(11월)</td>
+                    <td>질병관리청 검역정책과</td>
+                    <td>2021-10-21</td>
+                    <td>11014</td>
+                </tr>
+                <tr>
+                    <td>공지</td>
+                    <td>211028 해외입국자 방역관리 흐름도 변경 안내(공항 입국자용)</td>
+                    <td>질병관리청 검역정책과</td>
+                    <td>2021-10-20</td>
+                    <td>7919</td>
+                </tr>
+                <tr>
+                    <td>공지</td>
+                    <td>[210923] 해외입국자 PCR음성확인서 제출 및 적합기준 안내(영문, FAQ 포함)</td>
+                    <td>질병관리청 검역정책과</td>
+                    <td>2021-09-23</td>
+                    <td>25505</td>
+                </tr>
+                <tr>
+                    <td>공지</td>
+                    <td>210923 남아공, 탄자니아 발 입국자 방역절차 변경 안내(추가 안내)</td>
+                    <td>질병관리청 검역정책과</td>
+                    <td>2021-09-23</td>
+                    <td>3606</td>
+                </tr>
+                <tr>
+                    <td>2114</td>
+                    <td>211014 해외입국자 입국 시 방역절차 흐름도 변경안내</td>
+                    <td>질병관리청 검역정책과</td>
+                    <td>2021-10-03</td>
+                    <td>22736</td>
+                </tr>
+                <tr>
+                    <td>2113</td>
+                    <td>코로나19 항체검사 관련 Q&A</td>
+                    <td>중앙방역대책본부</td>
+                    <td>2021-09-17</td>
+                    <td>4390</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</body>
+
+</html>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>exam01</title>
+    <title>test01</title>
     <style>
         * {
             padding: 0;
@@ -16,32 +16,7 @@
             margin: 0;
         }
 
-        a {
-            text-decoration: none;
-        }
-
-        header {
-            width: 100%;
-            margin: 0%;
-            border: 1px solid gray;
-        }
-
-        #header_nav {
-            width: 100%;
-            height: 50px;
-            overflow: hidden;
-        }
-
-        #header_nav ul {
-            display: inline;
-        }
-
-        header nav ul li {
-            font-size: 15px;
-            color: grey;
-            margin-right: 70px;
-            list-style: none;
-            float: left;
+        header nav {
             text-align: center;
         }
 
@@ -50,52 +25,73 @@
             background-color: green;
         }
 
-        #content {
-            width: 90%;
-            margin: 0 auto;
-            margin-top: 85px;
-            overflow: hidden;
+        #header_nav {
+            list-style: none;
         }
 
-        #content #main_nav {
+        header nav ul li {
+            display: inline-block;
+            padding: 10px;
+        }
+
+        #navigation {
+            padding-top: 50px;
+        }
+
+        #navigation {
             margin: 0;
-            width: 10%;
+            width: 17%;
+            height: 500px;
+            line-height: 50px;
+            color: rgb(97, 93, 93);
             float: left;
         }
 
-        #content ul li {
-            list-style: none;
-            line-height: 50px;
+        #main_nav ul li {
+            text-align: left;
         }
 
-        #content ul li:hover {
+        #main_nav ul li:hover {
             color: white;
             background-color: green;
         }
 
-        .sectionname {
-            font-size: 30px;
-            font-weight: bold;
+        section {
+            padding-top: 50px;
+            float: right;
+            width: 80%;
         }
 
-        #form {
+        section header span {
             float: right;
         }
 
-        table {
-            border-collapse: separate;
-            border-spacing: 0 30px;
-            border-bottom: 1px solid gray;
+        #page_info select {
+            float: right;
         }
 
         th {
-            border-top: 1px solid gray;
             padding-top: 15px;
+            border-top: 1px solid black;
+            border-bottom: 1px solid gray;
         }
 
+        
+        th {
+            border-top: 1px solid gray;
+            padding: 15px;
+        }
+
+
+        tr {
+            border-bottom: 1px solid gray;
+        }
+        
         td {
             width: 250px;
             text-align: center;
+            padding: 10px;
+            border-bottom: 1px solid rgb(221, 218, 218);
         }
 
         td:nth-child(1) {
@@ -131,34 +127,43 @@
             </div>
         </nav>
     </header>
-
-    <div id="content">
-        <h3 class="title">알림·자료</h3>
-        <hr width="100px">
-        <nav>
-            <div id="main_nav">
-                <ul>
-                    <li>이달의건강소식</li>
-                    <li>보도자료</li>
-                    <li>포토뉴스</li>
-                    <li>홍보자료</li>
-                    <li>공지사항</li>
-                    <li>공고/공시</li>
-                    <li>채용공고</li>
-                    <li>법령·지침·서식</li>
-                </ul>
-            </div>
-        </nav>
-        <div id="main">
-            <span class="sectionname">공지사항</span>
-            <hr style="border: solid 1px black;">
-            <p>전체 200건, 전체 페이지 <span style="color: red;">1</span>/212</p>
-            <form id="form">
-                <select name="select">
-                    <option value="1" selected>제목</option>
-                    <option value="2">작성자</option>
-                </select>
-            </form>
+    <nav id="navigation">
+        <span>알림·자료</span>
+        <hr>
+        <div id="main_nav">
+            <ul>
+                <li>이달의건강소식</li>
+                <li>보도자료</li>
+                <li>포토뉴스</li>
+                <li>홍보자료</li>
+                <li>공지사항</li>
+                <li>공고/공시</li>
+                <li>채용공고</li>
+                <li>법령·지침·서식</li>
+            </ul>
+        </div>
+    </nav>
+    <section>
+        <div id="board_header">
+            <header>
+                <h2>공지사항</h2>
+                <span id="homeicon"><img src="../home.png" width="20px" height="20px"> > 알림·자료 > 공지사항 </span>
+                <br>
+                <br>
+                <span id="shareicon"><img src="../shareicon.png" width="30px" height="30px"> &nbsp; &nbsp; <img
+                        src="../printicon.png" width="30px" height="30px"></span>
+                <hr style="padding-top: 50px;">
+            </header>
+        </div>
+        <div id="page_info">
+            <h4>
+                <p>전체 200건, 전체 페이지 <span style="color: red;">1</span>/212</p>
+            </h4>
+            <select name="search" id="search">
+                <option value="1" selected>제목 &nbsp; &nbsp; &nbsp; </option>
+            </select>
+        </div>
+        <article>
             <div id="board">
                 <table>
                     <thead>
@@ -170,8 +175,8 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>공지</td>
-                            <td>211021 국내 예반접종완료자 입국 시 격리면제 절차 안내</td>
+                            <td style="border-left-style: none;">공지</td>
+                            <td>211021 국내 예방접종완료자 입국 시 격리면제 절차 안내</td>
                             <td>질병관리청 검역정책과</td>
                             <td>2021-10-22</td>
                             <td>10019</td>
@@ -221,9 +226,8 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-    </div>
-    </div>
+        </article>
+    </section>
 </body>
 
 </html>
