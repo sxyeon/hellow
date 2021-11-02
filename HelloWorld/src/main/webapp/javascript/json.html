@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript/json.html</title>
+    <style>
+        ul {
+            list-style-type: none;
+        }
+
+        ul>li {
+            display: inline-block; /*inline-block 해야 width같은 속성 줄 수 있음*/
+            width: 70px;
+            height: 30px;
+            color: aqua;
+            background-color: navy;
+            text-align: center;
+            margin: 2px;
+            cursor: pointer;
+        }
+
+        #content {
+            padding-left: 8vw;
+        }
+
+        .title {
+            display: inline-block;
+            width: 20vw;
+            background-color: violet;
+            color: yellow;
+            font-size: 20px;
+            margin: 2px;
+        }
+
+        .content {
+            display: inline-block;
+            width: 60vw;
+            background-color: violet;
+            color: yellow;
+            font-size: 20px;
+            margin: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div id="title"></div> <!-- id는 페이지 전체에서 유일해야함 / 클래스는 여러 개 있어도 상관없음 -->
+    <div id="content"></div>
+    <div class="title"></div>
+    <span class="title"></span>
+
+    <script>
+        let divs = document.getElementsByTagName('div'); // HTMLCollection
+        // divs[0]
+        let nodes = document.querySelectorAll('.title'); // NodeList
+        // nodes[0] : 0
+        let cont = document.getElementById('title');
+        // cont[0] : x
+
+        let obj = {
+            name: "Hong",
+            age: 25,
+            hobby: ['sleeping', 'reading'],
+            getAge: function() {
+                return this.age;
+            }
+        }
+        // JSON => JavaScript Object Notation / datatype : key, value
+        let jsonObj = `[{
+            "name": "hong",
+            "age": 15,
+            "marriage": true,
+            "car": null,
+            "hobby": ["walking", "hiding"],
+            "family": {
+                "father":"hong_father",
+                "mother":"hong_mother"
+            }
+        }]`;
+        let data = "hong, 15, walking, hong, 15, walking, hong, 15, walking";
+        data.split(',');
+
+        console.log(JSON.parse(jsonObj)); // json type => object type
+        console.log(JSON.stringify(obj)); // object type => json type / string 타입으로 형변환해서 텍스트 형식으로 쉽게 바꾸어줌
+
+        // Ajax : 서버 측에 페이지를 요청하고 결과를 받아오는 object
+        let xhtp = new XMLHttpRequest(); // XMLHttpRequest : 서버에 데이터를 달라고 요청을 보내고 결과를 받아와야 하는데, 이때 서버와 주고받는 데이터를 쉽게 다룰 수 있는 방법이 XMLHttpRequest를 사용
+        let globalData = null; // 페이지가 로딩되고 나면 globalData라는 변수에다가 데이터 담음 
+        xhtp.onreadystatechange = function() {
+            console.log(xhtp.readyState, xhtp.status); // readyState : 요청의 상태를 unsigned short로 반환 / status : 요청의 응답 상태를 갖는 unsigned short를 반환
+            if(xhtp.readyState == 4 && xhtp.status == 200) { // 200은 서버상태(에러면 400번대~500번대)
+                console.log(xhtp.responseText);
+                let data = JSON.parse(xhtp.responseText);
+                globalData = data; 
+                createUserList(data);
+            } 
+        }
+        xhtp.open('get', 'MOCK_DATA.json');
+        xhtp.send();
+
+        function createUserList(ary) {
+            let ul = document.createElement('ul');
+            for(let row of ary) {
+                let li = document.createElement('li');
+                li.onclick = function () { // on~~는 이벤트를 가리키는 속성들
+                    showInfo(row.id); // row.id를 매개값으로 / 클릭하면 showInfo function 실행
+                }
+                li.innerHTML =  row.first_name;
+                ul.appendChild(li);
+            }
+            document.getElementById('title').appendChild(ul); // body 하위로
+        }
+
+        function showInfo(id) {
+            let thisData = globalData.filter(function (val, ind) {
+                return val.id === id; // 가지고 온 값들과 같은 것들만 담음
+            });
+            console.log(thisData); // 조회된 아이디 기준의 데이터 환경
+            // <div id = 'content'>      </div> / 하위요소 넣기
+            // <div class='title'>ID</div><div class='id'>1</div>
+            // <div class='title'>Fname</div><div class='fname'>Deorra</div>
+            let obj = thisData[0];
+            let contentList = document.getElementById('content');
+            for(let i=0, cnt = contentList.children.length; i<cnt; i++) {
+                contentList.children[0].remove();
+            }
+            for(let field in obj) {
+                let titleDiv = document.createElement('div');
+                titleDiv.className = 'title';
+                titleDiv.innerHTML = field;
+
+                let contentDiv = document.createElement('div');// 실제 데이터가 들어가는 부분
+                contentDiv.className = `content ${field}`;
+                contentDiv.innerHTML = obj[field];
+
+                contentList.append(titleDiv, contentDiv)
+            }
+        }
+
+    </script>
+</body>
+</html>

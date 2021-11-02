@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript/class.html</title>
+    <!-- <script src="class1.js"></script> -->
+</head>
+
+<body>
+    <div id="add">
+        학번: <input type="text" id="studentNo"><br>
+        이름: <input type="text" id="studentName"><br>
+        점수: <input type="number" id="score"><br>
+        학년: <input type="number" id="year"><br>
+        <button id="btn">추가</button>
+    </div>
+    <div id="show"></div>
+    <!-- 메소드를 사용해서 show div 밑에 정보 뜨게 / getelementbyid, onclick-->
+    <script>
+        class Table {
+            constructor() {
+                this.table = document.createElement('table');
+                this.tbody = document.createElement('tbody');
+                this.table.appendChild(this.tbody);
+            }
+            makeRow(obj) {
+                let row = {};
+                row = obj;
+                for (let field in row) {
+                    let td = document.createElement('td');
+                    td.innerHTML = row[field];
+                    tr.appendChild(td);
+                }
+                return tr;
+            }
+            appendTbody() { 
+                this.tbody.appendChild(this.makeRow());
+            }
+            appendTable() {
+                this.table.appendChild(this.tbody());
+            }
+        }
+        class Student {
+            constructor(no, name, score, year) {
+                this.studentNo = no;
+                this.studentName = name;
+                this.score = score;
+                this.year = year;
+            }
+        }
+        let table = new Table();
+        table.setAttribute('border', '1');
+        document.getElementById('show')
+
+        document.getElementById('btn').onclick = function () { // . 뒤에 속성 나타내면 됨
+            let studentNo = document.getElementById('studendNo');
+            let studentName = document.getElementById('studentName');
+            let score = document.getElementById('score');
+            let year = document.getElementById('year');
+            let s1 = new Student(studentNo, studentNo, score, year);
+            table.appendChild(s1);
+        }
+    </script>
+</body>
+
+</html>

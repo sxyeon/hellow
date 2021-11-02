@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript/boolean.html</title>
+</head>
+<body>
+    <script>
+        // let val = 0; // null, '', -0, undifined
+        // val = 3 > 1;
+        // val = ''; // 값이 없으므로 거짓 뜸
+        // val = -0;
+        // if(val > 4? true : false) { // val이라는 값이 2보다 크면 true값을, 그렇지 않으면 false / 문자열이냐 값이냐
+        //     console.log('참');
+        // } else {
+        //     console.log('거짓');
+        // }
+
+        // if(!!Math.sign(val)) { // math.sign() -> 어떤 수의 부호 반환 / 수가 양수, 음수, 0인지를 나타냄
+        //     console.log('참');
+        // } else {
+        //     console.log('거짓');
+        // }
+
+        const letters = new Set(["a", "b", "c"]);
+        letters.add('d');
+        letters.add('e');
+        letters.add('e');
+        letters.add('e'); // 반복된 요소 처리하지 않아서 한 번만 콘솔에 뜸
+
+        letters.delete('d');
+
+        letters.forEach(function (a, b, c) { 
+            console.log(a, b, c);
+        });
+
+        let result = letters.values(); // 모든 값을 가지고 오도록 함
+        console.log(letters.size);
+
+        // for (let val of letters.values()) { 
+        //     console.log(val)
+        // }
+
+        for (let val of result) {
+            console.log(val);
+        }
+
+        const fruits = new Map(); // Map은 Key, Value로 구성 / key: value => entry
+        fruits.set('apple', 500); 
+        fruits.set('banana', 400);
+        let price = fruits.get('apple'); // key값을 알고 있으면 value를 가져오는 게 Map
+        console.log(price); // 500이라는 값 나옴
+
+        // console.log(fruits.entries()); 
+
+        let fruitAry = [];
+        for(let ent of fruits.entries()) {
+            console.log(ent); // entry 타입 => 배열 형식으로 ['key', 'val'] 이렇게 리턴
+            fruitAry.push(ent);
+        }
+        console.log(fruitAry); // 배열 안에 배열 형식으로 값 들어가있음 / [['apple', '500'], ['banana', '400']]
+
+        fruits.forEach(function (val, key, map) {
+            console.log(val, key, map);
+        });
+
+        let ary = []; // new Array();
+        let obj = {}; // new Object();
+        let reg = /W3Schools/i; // new RegExp(); / i는 대소문자를 가리지 않는다는 의미
+        console.log(typeof reg);
+        
+        let text = "Visit W3Schools!";
+        let n = text.search("W3Schools");
+        console.log(n); // 6번째 위치 찾아옴
+
+        text = "Visit Microsoft!";
+        result = text.replace(/microsoft/i, "W3Schools"); // Microsoft를 W3Schools로 교체 / microsoft를 대소문자 가리지 말고 찾아라
+        console.log(result);
+    </script>
+</body>
+</html>

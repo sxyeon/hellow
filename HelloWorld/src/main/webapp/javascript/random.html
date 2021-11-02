@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript/random.html</title>
+    <style>
+        td {
+            width: 50px;
+            height: 50px;
+            border: 1px black solid;
+            text-align: center;
+            font-size: 20px;
+            color: white;
+        }
+
+        input {
+            margin: 0;
+            padding: 0;
+            width: 50px;
+            height: 50px;
+            color: white;
+            text-align: center;
+            font-size: 20px;
+        }
+
+        .selected {
+            /* 클래스가 선택되었을 때(클릭됨) */
+            color: yellow;
+            background-color: blue;
+            transition: all 2s;
+            /* 모두 선택해서 2초동안 바꿔줌 */
+        }
+
+        .selected:focus {
+            color: yellow;
+            background-color: blue;
+        }
+
+        .correct {
+            /* 맞을 경우 */
+            color: navy;
+            background-color: aqua;
+        }
+
+        .not_correct {
+            /* 틀릴 경우 */
+            color: white;
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="show"></div>
+
+    <script>
+        let forBy = 6;
+        let pow = Math.pow(forBy, 2);
+        let half_pow = pow / 2;
+        // 배열을 임의 생성
+        let randomAry = [];
+        while (randomAry.length != pow) { //randomAry가 16이 되기 전까지
+            let randomVal = Math.floor(Math.random() * pow) + 1; // 1부터 16까지 임의의 난수 / floor로 소수점 없앰
+            if (randomAry.indexOf(randomVal) == -1) { // -1은 값이 없다는 의미
+                randomAry.push(randomVal); // push() 메서드는 배열의 끝에 하나 이상의 요소를 추가하고, 배열의 새로운 길이를 반환
+            }
+        }
+        console.log(randomAry);
+
+        let table, tbody, tr, td;
+        table = document.createElement('table');
+        tbody = document.createElement('tbody');
+        table.appendChild(tbody);
+        document.getElementById("show").appendChild(table);
+
+        randomAry.forEach(function (val, ind) { // forEach의 매개값으로 콜백함수가 들어옴
+            if (ind % forBy == 0) { // 네 칸 단위로 자름
+                tr = document.createElement('tr');
+                tbody.appendChild(tr);
+            }
+            td = document.createElement('td');
+            td.onclick = function () {
+                this.children[0].className = 'selected'; // 클릭하면 천천히 바뀌어지도록
+                // 2초지연
+                window.setTimeout(function () {
+                    let selVal = document.querySelectorAll('.selected'); // .selected를 만족하는 전부를 가져오기
+                    if (selVal.length != 2) {
+                        for(let i=0; i<selVal.length; i++) {
+                            selVal[0].className = 'not_correct'
+                        }
+                        return;
+                    }
+                    if (selVal[0].value == selVal[1].value) { // 두 번째 클릭했을 때 비교하는 연산
+                        selVal[0].className = 'correct';
+                        selVal[1].className = 'correct';
+                        // 총 성공한 input갯수가 16개..
+                        // 시도횟수(전역변수 써서 증가시키기)
+                    } else {
+                        selVal[0].className = 'not_correct';
+                        selVal[1].className = 'not_correct';
+                    }
+                }, 2000); // 2초 있다가 실행하라는 것(ms)
+                let selVal = document.querySelectorAll('.selected'); // .selected를 만족하는 전부를 가져오기
+                if (selVal.length != 2) {
+                    return;
+                }
+                if (selVal[0].value == selVal[1].value) { // 두 번째 클릭했을 때 비교하는 연산
+                    selVal[0].className = 'correct';
+                    selVal[1].className = 'correct';
+                } else {
+                    selVal[0].className = 'not_correct';
+                    selVal[1].className = 'not_correct';
+                }
+            }
+            let inputVal = val > half_pow ? (val - half_pow) : val; // 8보다 크면 쌍으로 만들어주기 위해서
+            td.innerHTML = `<input type="text" value="${inputVal}">`;
+            tr.appendChild(td);
+        });
+    </script>
+</body>
+
+</html>

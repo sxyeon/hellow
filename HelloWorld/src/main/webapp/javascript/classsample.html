@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="add">
+        학번: <input type="text" id="studentNo"><br>
+        이름: <input type="text" id="studentName"><br>
+        점수: <input type="number" id="score"><br>
+        학년: <input type="number" id="year"><br>
+        <button id="btn">추가</button>
+    </div>
+    <div id="show"></div>
+    <!-- 메소드를 사용해서 show div 밑에 정보 뜨게 / getelementbyid, onclick-->
+    <script>
+        // class Table {
+        //     constructor() {
+        //         this.table = document.createElement('table');
+        //         this.tbody = document.createElement('tbody');
+        //         this.table.appendChild(this.tbody);
+        //     }
+
+        // }
+
+        class Student {
+            constructor(studentNo, studentName, score, year) {
+                this.studentNo = no;
+                this.studentName = name;
+                this.score = score;
+                this.year = year;
+            }
+            showNo() {
+                return this.no;
+            }
+            setNo(no) {
+                this.no = no;
+            }
+            getInfoByDom() {
+                let tr = document.createElement('tr');
+                let td1 = document.createElement('td');
+                td1.innerHTML = this.no;
+                let td2 = document.createElement('td');
+                td2.innerHTML = this.name;
+                let td3 = document.createElement('td');
+                td3.innerHTML = this.score;
+                let td4 = document.createElement('td');
+                td4.innerHTML = this.year;
+                tr.append(td1, td2, td3, td4);
+                return tr;
+            }
+            getNoByTd() {
+                let td = document.createElement('td');
+                td.innerHTML = this.no;
+                return td;
+            }
+            getNameByTd() {
+                let td = document.createElement('td');
+                td.innerHTML = this.name;
+                return td;
+            }
+            getScoreByTd() {
+                let td = document.createElement('td');
+                td.innerHTML = this.score;
+                return td;
+            }
+            getYearByTd() {
+                let td = document.createElement('td');
+                td.innerHTML = this.year;
+                return td;
+            }
+            getRowByTr() {
+                let tr = document.createElement('tr');
+                tr.appendChild(this.getNameByTd());
+                tr.appendChild(this.getColorByTd());
+                return tr;
+            }
+        }
+
+        let ary = ['학번', '이름', '점수', '학년'];
+        let table = document.createElement('table');
+        let div = document.getElementById('show');
+        div.appendChild(table);
+        let tr = document.createElement('tr');
+
+        
+
+    </script>
+</body>
+
+</html>
