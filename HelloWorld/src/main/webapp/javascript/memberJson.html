@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>javascript/memberJson.html</title>
+<style>
+* {
+	box-sizing: border-box;
+}
+
+#show {
+	display: inline-block;
+	width: 58vw;
+	margin-right: 2vw;
+	border: 1px solid blue;
+}
+
+#content {
+	display: inline-block;
+	width: 40vw;
+	height: 200px;
+	border: 1px solid red;
+}
+
+.row {
+	border: 1px solid blue;
+}
+
+.row>.title {
+	display: inline-block;
+	width: 10vw;
+	background-color: aqua;
+}
+
+.row>.content {
+	display: inline-block;
+	width: 25vw;
+	background-color: yellow;
+}
+</style>
+</head>
+
+<body>
+	<div id="show"></div>
+	<div id="content">
+		<div class='row'>
+			<div class='title'>id</div>
+			<div class='content'>user1</div>
+		</div>
+		<div class='row'>
+			<div class='title'>name</div>
+			<div class='content'>홍길동</div>
+		</div>
+		<div class='row'>
+			<div class='title'>생일</div>
+			<div class='content'>1995-03-05</div>
+		</div> <!-- 데이터 한 건을 선택하면 최종적으로 보여지는 내용 -->
+	</div>
+	<script>
+		// Ajax => XMLHttpRequest(); 페이지 요청
+		let xhtp = new XMLHttpRequest();
+		xhtp.onreadystatechange = function() {
+			if (xhtp.readyState == 4 && xhtp.status == 200) {
+				// 회원 리스트 화면에 보여주기(function 구현)
+				let data = JSON.parse(xhtp.responseText);
+				console.log(xhtp.responseText);
+				showMemberList(data);
+			}
+		}
+		xhtp.open('get', '../GetMemberJsonServ');
+		xhtp.send();
+
+		const titles = ['userId', 'userName', 'birthDate', 'phone', 'address', 'gender', 'delete'];
+
+		function getHeader() {
+			let thead = document.createElement('thead');
+			let tr = document.createElement('tr');
+			for (let title of titles) {
+				let td = document.createElement('th');
+				td.textContent = title;
+				tr.appendChild(td);
+			}
+			thead.appendChild(tr);
+			return thead;
+		}
+
+		function getContent(data) {
+			let tbody = document.createElement('tbody');
+			let tr = document.createElement('tr');
+			for (let row of data) {
+				tbody.appendChild(getRow(row));
+			}
+			return tbody;
+		}
+
+		function getRow(row) {
+			let tr = document.createElement('tr');
+			for(let title of titles) {
+				let td = document.createElement('td');
+				td.textContent = row[title];
+				tr.appendChild(td);
+			}
+			return tr;
+		}
+
+		function showMemberList(data) {
+			let table = document.createElement('table');
+			table.appendChild(getHeader());
+			table.appendChild(getContent(data));
+			
+			document.getElementById('show').appendChild(table);
+			
+		}
+		
+		function getUserInfo(id) {
+			let xhtp = new XMLHttpRequest();
+			xhtp.onreadystatechange = function() {
+				if(xhtp.readyState == 4 && xhtp.status == 200) {
+					let data = JSON.parse(xhtp.responseText); 
+					console.log(data);
+					showDetail(data);
+				}
+			}
+			xhtp.open('get', '../GetMemberOneJsonServ?id='+id);
+			xhtp.send();
+		}
+		
+		// const titles = ['userId', 'userName', 'birthDate', 'phone', 'address', 'gender', 'delete'];
+		// 세부 정보 보기
+		function showDetail(row) {
+			// 원래 요소가 있으면 요소를 지워주세요
+			let contentElm = document.querySelector('#content');
+			let cnt = contentElm.children.length
+			for(let i = 0; i < cnt; i++) {
+				contentElm.children[0].remove();
+			}
+			// showDetail 상세화면을 생성해주는 부분
+			for(let title of titles) {
+				let rowDiv = document.createElement('div');
+				rowDiv.className = 'row';
+				
+				let titleDiv = document.createElement('div');
+				let contentDiv = document.createElement('div');
+				rowDiv.append(titleDiv, contentDiv);
+				
+				titleDiv.className = 'title';
+				titleDiv.textContent = title;
+				
+				contentDiv.className = 'content';
+				contentDiv.textContent = row[title];
+				
+				document.getElementById('content').appendChild(rowDiv);
+				
+			}
+		}
+		getUserInfo('user1'); // user1을 넣어서 function을 실행하라는 의미
+		
+		
+		// POST 방식 요청
+		//xhtp.open('post', '../GetMemberJsonServ'); // (요청하는 방식, 페이지)
+		//xhtp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		//xhtp.send("id=user4&name=Hong&addr=daegu171");
+	</script>
+</body>
+</html>
