@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 
 @WebServlet("/GetMemberJsonServ") // 주소값
@@ -53,20 +54,50 @@ public class GetMemberJsonServ extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8"); // 한글
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
 		// 입력하는 기능
 		MemDAO dao = new MemDAO();
-		String userID = request.getParameter("id");
-		String userName = request.getParameter("name");
-		String address = request.getParameter("addr");
+		String userID = request.getParameter("uid");
+		String userName = request.getParameter("uname");
+		String address = request.getParameter("uaddress");
+		String phone = request.getParameter("uphone");
+		String gender = request.getParameter("ugender");
+		String birth = request.getParameter("ubirth");
 		
 		MemberVO vo = new MemberVO();
 		vo.setUserId(userID);
 		vo.setUserName(userName);
 		vo.setAddress(address);
-		System.out.println(vo);
-		dao.insertMember(vo);
+		vo.setPhone(phone);
+		vo.setGender(gender);
+		vo.setBirthDate(birth);
 		
-		response.getWriter().println("OK");
+		Gson gson = new GsonBuilder().create(); // json 반환
+		JsonObject jsonObj = new JsonObject(); // json 데이터 만들기
+		
+		// {"retCode":"OK", "retVal": {vo}}
+		// {"retCode":"NG", "retVal": "담당자에게 문의!!" }
+		if(dao.insertMember(vo)) {
+			jsonObj.addProperty("recCode", "OK");
+			jsonObj.addProperty("userId", vo.getUserId());
+			jsonObj.addProperty("userName", vo.getUserName());
+			jsonObj.addProperty("birthDate", vo.getBirthDate());
+			jsonObj.addProperty("address", vo.getAddress());
+			jsonObj.addProperty("phone", vo.getPhone());
+			jsonObj.addProperty("gender", vo.getGender());
+		} else {
+			jsonObj.addProperty("retCode", "NG");
+			jsonObj.addProperty("retMsg", "오류발생!! \n 담당자 문의!");
+		}
+		response.getWriter().println(gson.toJson(jsonObj));
+		
+		//System.out.println(vo);
+		
+//		dao.insertMember(vo);
+//		
+//		response.getWriter().println("OK");
 	}
 
 }

@@ -2,9 +2,71 @@ package com.yedam.member;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MemDAO extends DAO {
+	
+	// 수정기능
+	public Map<String, Object> updateMember(MemberVO vo) {
+		// retCode: OK, retVal: vo
+		// retCode: NG, retVal: errMsg
+		String sql = "update member";
+		sql += "     set     user_name = ?";
+		sql += "            ,birth_date = ?";
+		sql += "            ,gender = ?";
+		sql += "            ,address = ?";
+		sql += "      where user_id = ?"; // 업데이트 구문 만든 거
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("retCode", "NG");
+		map.put("retVal", "Error!!");
+		
+		connect();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, vo.getUserName()); // 각각 파라미터에 값 주기
+			psmt.setString(2, vo.getBirthDate());
+			psmt.setString(3, vo.getGender());
+			psmt.setString(4, vo.getAddress());
+			psmt.setString(5, vo.getAddress());
+			psmt.setString(6, vo.getUserId());
+			int r = psmt.executeUpdate(); // 실행
+			System.out.println(r + "건 수정");
+			if(r > 0) { // db가 수정되면 1을 리턴해줌
+				map.put("retCode", "OK");
+				map.put("retVal", vo);
+				return map;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			map.put("retVal", e.getMessage()); // 예외가 가지고 있는 에러메시지
+			return map;
+		} finally {
+			disconnect();
+		}
+		return map;
+	} 
+	
+	// 한 건 삭제
+	public boolean deleteMember(String id) {
+		String sql = "delete from member where user_id = ?";
+		connect();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			int r = psmt.executeUpdate();
+			System.out.println(r + "건 삭제.");
+			if(r > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+			return false;
+	}	
 	
 	// 한 건 조회하는 기능
 	public MemberVO getMember(String id) {
@@ -34,21 +96,28 @@ public class MemDAO extends DAO {
 	}
 
 	// 한 건 입력하는 기능
-	public void insertMember(MemberVO vo) {
-		String sql = "insert into member(user_id, user_name, address) values(?,?,?)";
+	public boolean insertMember(MemberVO vo) {
+		String sql = "insert into member(user_id, user_name, address, phone, birth_date, gender)"
+				+ " values(?,?,?,?,?,?)";
 		connect();
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, vo.getUserId());
 			psmt.setString(2, vo.getUserName());
 			psmt.setString(3, vo.getAddress());
+			psmt.setString(4, vo.getPhone());
+			psmt.setString(5, vo.getBirthDate());
+			psmt.setString(6, vo.getGender());
+			
 			int r = psmt.executeUpdate();
 			System.out.println(r + "건 입력됨");
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		} finally {
 			disconnect();
 		}
+		return true;
 	}
 
 	// 전체 리스트
