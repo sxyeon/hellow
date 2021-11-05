@@ -7,6 +7,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>javascript/memberJson.html</title>
 <style>
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+  border: 1px solid #ddd;
+  margin: 0 4px;
+}
+
+.pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+  border: 1px solid #4CAF50;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
 * {
 	box-sizing: border-box;
 }
@@ -85,14 +108,17 @@ button {
 				value="대구 중구 100"> <label for="user_men">남</label><input
 				name="gender" id="user_men" type="radio" value="men"> <label
 				for="user_women">여</label><input name="gender" id="user_women"
-				type="radio" value="women">
+				type="radio" value="women"> <label for="user_all">모두</label><input
+				name="gender" id="user_all" type="radio" value="all">
 		</div>
 		<div class="btn">
 			<button onclick="addMember()">등록</button>
 			<button onclick="modMember()">수정</button>
-			<button onclick="delMember()">삭제</button>
+			<button onclick="delMember()">선택삭제</button>
+			<button onclick="fndMember()">조회</button>
 		</div>
 	</div>
+	<div class="pagination"></div>
 	<div id="show"></div>
 	<div id="content">
 		<div class='row'>
@@ -116,11 +142,46 @@ button {
 			if (xhtp.readyState == 4 && xhtp.status == 200) {
 				// 회원 리스트 화면에 보여주기.
 				let data = JSON.parse(xhtp.responseText);
-				showMemberList(data)
+				showMemberList(data);
+				// 첫 번째 데이터를 화면에 그려주기
+				getUserInfo(data[0].userId);
 			}
 		}
-		xhtp.open('get', '../GetMemberJsonServ');
+		xhtp.open('get', '../GetMemberJsonServ'); // 서버에 있는 페이지 요청
 		xhtp.send();
+		
+		// 1-1) 전체 페이지 개수 보여주기
+		let req = new XMLHttpRequest();
+		req.open('get', '../GetMemberPageServlet?cmd=cnt');
+		req.send();
+		req.onload = showListPerPage;
+		
+		// 1-2) 화면에 페이지 보여주는 콜백
+		function showListPerPage() {
+			let parent = document.querySelector('.pagination');
+			let result = JSON.parse(this.responseText);
+			console.log(result.totalCnt); // {"totalCnt" : 160}
+			let pageCnt = result.totalCnt / 10; // 16
+			pageCnt = Math.ceil(pageCnt); // 페이지가 가지고 있는 값의 ceil값 / 만약 13.6이라면 14페이지 나오게
+			// 페이지 화면에 그리기
+			for(let i = 1; i <= pageCnt; i++) { // i값이 page
+				let a = document.createElement('a');
+				a.href = `javascript:void(0)`; // void(0)해서 눌렀지만 기본 기능을 사용하지 않겠다는 뜻
+				a.textContent = i; // <a href="">3</a>와 같은 걸 textContent에 넣음
+				a.onclick = function() {
+					let act = document.querySelectorAll('.pagination .active');
+					for (let j = 0; j < act.length; j++) {
+						act[j].className = null;
+					}
+					this.className = 'active';
+					let xhttp = new XMLHttpRequest();
+					xhttp.open('get', '../GetMemberPageServlet?cmd=list&page=' + i);
+					xhttp.send();
+					xhttp.onload = fndMemberCallBack;
+				}
+				parent.appendChild(a);
+			}
+		}
 
 		// 타이틀 * MemberVO의 필드값과 동일.
 		const titles = ['userId', 'userName', 'phone', 'gender', 'birthDate', 'address'];
@@ -130,13 +191,31 @@ button {
 			let thead = document.createElement('thead');
 			let tr = document.createElement('tr');
 			thead.appendChild(tr);
+			// 체크박스 추가
+			let td = document.createElement('th');
+			// td.innerHTML = `선택<input type='checkbox'>`;
+			td.textContent = '선택';
+			let checkBox = document.createElement('input'); // 인풋타입의 체크박스 만들기
+			checkBox.setAttribute('type', 'checkbox');
+			checkBox.onchange = function() {
+				// 전체선택 기능구현 true/false
+				console.log(this.checked); // this가 checkbox / checked속성을 가져와서 true or false
+				// 데이터 영역에 있는 체크박스의 값을 true로 바꿔주면 체크되고 false면 풀려짐 / checked = true;
+				let checkit = document.querySelectorAll('tbody>tr>td>input');
+				let cnt = checkit.length; // 갯수만큼 루핑 올려주기 위해서 변수 선언
+				for (let i = 0; i < cnt; i++) {
+					checkit[i].checked = this.checked;
+				}
+			}
+			td.appendChild(checkBox); // 체크박스가 td의 하위요소로 들어가야함
+			tr.appendChild(td);
 			for (let title of titles) {
 				let td = document.createElement('th');
 				td.textContent = title;
 				tr.appendChild(td);
 			}
 			// 추가 칼럼. X
-			let td = document.createElement('th');
+			td = document.createElement('th');
 			td.textContent = '삭제';
 			tr.appendChild(td);
 			return thead;
@@ -155,16 +234,35 @@ button {
 		function getRow(row) { // {userId:?, userName:?, address:?} // 데이터 던져주면 그걸로 tr 만들어주는 함수
 			let tr = document.createElement('tr');
 			tr.id = row.userId;
+			let td = document.createElement('td');
+			let checkBox = document.createElement('input');
+			checkBox.setAttribute('type', 'checkbox');
+			checkBox.onchange = function() {
+				// header 선택 => body 선택 하나라도 해제되면 false
+				let checkit = document.querySelectorAll('tbody>tr>td>input');
+				for (let i = 0, cnt = checks.length; i < cnt; i++) {
+					if(checkit[i].checked = false) {
+						// header쪽 false
+						document.querySelectror('thead>tr>th>input[type="checkbox"]').checked = false;
+						return; // return은 function 종료
+					}
+				}	
+				// header쪽 true;
+				document.querySelectror('thead>tr>th>input[type="checkbox"]').checked = true;
+			}
+			td.appendChild(checkBox);
+			tr.appendChild(td);
 			for (let title of titles) {
 				let td = document.createElement('td');
 				if (title == 'userId') {
 					td.onclick = function () {
 						getUserInfo(row['userId'])
 					}
-				} else {
-					
+				} else if (title == 'userName'){
+					td.onclick = function () {
+						setUserInfo(row['userId']);
+					}
 				}
-				
 				let content = row[title];
 				if (title == 'birthDate' && content !== undefined) {
 					content = content.substring(0, 10);
@@ -173,7 +271,7 @@ button {
 				tr.appendChild(td);
 			}
 			// 추가 칼럼.
-			let td = document.createElement('td');
+			td = document.createElement('td');
 			td.innerHTML = `<button onclick="delMem('${row.userId}')">삭제</button>`;
 			tr.appendChild(td);
 			return tr;
@@ -182,13 +280,14 @@ button {
 		// 5) ajax 호출 후 실행될 콜백함수.
 		function showMemberList(data) {
 			let table = document.createElement('table');
-			table.setAttribute('border', '1')
+			table.setAttribute('border', '1');
 			table.appendChild(getHeader());
 			table.appendChild(getContent(data));
 
-			let h3 = document.createElement('h3');
-			h3.appendChild(document.createTextNode('회원리스트'))
-			document.getElementById('show').appendChild(h3);
+			let cap = document.createElement('caption');
+			cap.appendChild(document.createTextNode('회원리스트'));
+			table.appendChild(cap);
+			
 			document.getElementById('show').appendChild(table);
 		}
 
@@ -232,7 +331,7 @@ button {
 				document.getElementById('content').appendChild(rowDiv);
 			}
 		}
-		getUserInfo('user1');
+		// getUserInfo('user1');
 		
 		// 8) 사용자등록 : 멤버 등록 버튼 누르면 실행할 함수
 		function addMember() {
@@ -281,6 +380,8 @@ button {
 			if (result.retCode == "OK") {
 				window.alert(`id: ${result.userId} 를 삭제완료.`)
 				document.getElementById(result.userId).remove();
+			} else if (result.retCode == "NG") {
+				console.log(`에러메시지: ${result.retMsg}`)	
 			} else {
 				window.alert(result.retMsg);
 			}
@@ -345,13 +446,80 @@ button {
 		function modMemberCallBack() {
 			let result = JSON.parse(this.responseText);
 			console.log(result);
-			let selectedTr = document.getElementById(result.retVal.userId);
-			console.log(selectedTr);
+			let selectedTr = document.getElementById(result.retVal.userId); // id값으로 getElementById 메소드를 가지고 페이지에서 찾는 것
+			// selectedTr = document.querySelector(`${result.retVal.userId}`); // id값 중에서 
+			// console.log(selectedTr);
+			// 화면에 있는 필드의 순서와 타이틀에 있는 순서가 같아서 반복문으로 처리
 			for(let i = 1; i < titles.length; i++) {
-				selectedTr.children[i].textContent = result.retVal[titles[i]]; // userId, userName, Gender 순으롱 있는 필드를 넣어준다는 것
+				selectedTr.children[i + 1].textContent = result.retVal[titles[i]]; // userId, userName, Gender 순으로 있는 필드를 넣어준다는 것
 			}
 		}
 		
+		// 15) 선택 삭제
+		function delMember() {
+			let selectedInput = document.querySelectorAll('tbody>tr>td>input:checked');
+			let cnt = selectedInput.length; // 하나를 삭제하면 selectedInput.length값이 그때그때 달라질 수 있으니까 변수로 선언해서 고정시키기
+			// 선택된 요소를 반복적으로 삭제 처리
+			for (let i=0; i<cnt; i++) {
+				let searchId = selectedInput[i].parentNode.parentNode.id; // i값이 증가되면서 선택된 값들 지워짐
+				selectedDelMem(searchId);
+			}
+		}
+		
+		// 16) 선택 삭제 아작스
+		function selectedDelMem(id) {
+			console.log(id);
+			// id를 가지고 db처리해주는 서블릿
+			// 정상처리 후 화면에서도 삭제
+			let xhtp = new XMLHttpRequest();
+			xhtp.open('get', '../ModifyMemberServlet?id='+id);
+			xhtp.send();
+			xhtp.onload = selectedDelMemCallBack;
+		}
+		
+		// 17) 선택 삭제 콜백
+		function selectedDelMemCallBack() {
+				console.log(this.responseText);
+				let result = JSON.parse(this.responseText);
+				if (result.retCode == "OK") {
+					console.log(result.userId);
+					document.getElementById(result.userId).remove();
+				} else if (result.retCode == "NG") {
+					//console.log(`에러메시지: ${result.retMsg}`)
+					window.alert(`에러메시지: ${result.retMsg}`);
+				} else {
+					console.log('11111');
+				}
+		}
+		
+		// 18) 조건 조회
+		function fndMember() {
+			// 입력화면의 값을 변수에 담아주기
+			let id = document.getElementById('user_id').value;
+			let name = document.getElementById('user_name').value;
+			let addr = document.getElementById('user_addr').value;
+			let phone = document.getElementById('user_phone').value;
+			let gen = document.querySelector('input[name=gender]:checked').value; // name속성이 gender인 것 중 checked된 것
+			let url = `../SearchMemberServlet?id=${id}&nm=${name}&ad=${addr}&ph=${phone}&gn=${gen}`;
+			//ajax 호출
+			let xhtp = new XMLHttpRequest();
+			xhtp.open('get', url);
+			//xhtp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhtp.send();
+			xhtp.onload = fndMemberCallBack;
+		}
+		
+		// 19) 조회 콜백
+		function fndMemberCallBack() {
+			console.log(this.responseText);
+			let table = document.querySelectorAll('#show>table');
+			for (let i = 0; i < table.length; i++) {
+				table[0].remove();
+			} // 테이블 지워주고 다시 그리기
+			let data = JSON.parse(this.responseText);
+			showMemberList(data);
+			getUserInfo(data[0].userId);
+		}
 		
 		// post 방식 요청.
 		// xhtp.open('post', '../GetMemberJsonServ');

@@ -115,7 +115,7 @@
                     selVal[1].className = 'not_correct';
                 }
             }
-            let inputVal = val > half_pow ? (val - half_pow) : val; // 8보다 크면 쌍으로 만들어주기 위해서
+            let inputVal = val > half_pow ? (val - half_pow) : val; // 쌍으로 만들어주기 위해서
             td.innerHTML = `<input type="text" value="${inputVal}">`;
             tr.appendChild(td);
         });
